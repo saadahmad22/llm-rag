@@ -20,10 +20,6 @@ class VectorStore:
         '''
         
         self.embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")        
-        # LlamaCppEmbeddings(
-        #     model_path="/Users/saad/Documents/Work/RaWee/poc/python/model/llama-3.2-3b-instruct-q8_0.gguf",
-        #     n_ctx=512
-        #     )
         self.store = self.create_from_documents(documents)        
         
     def create_from_documents(self, documents: list[Document]=None) -> FAISS:
@@ -44,16 +40,8 @@ class VectorStore:
 
         documents = [doc.page_content for doc in documents]
         text_embeddings = self.embeddings.embed_documents(documents)
-        # text_embeddings = [emb[0] if isinstance(emb, list) else emb for emb in text_embeddings]
         text_embedding_pairs = zip(documents, text_embeddings)
         return FAISS.from_embeddings(text_embedding_pairs, self.embeddings)
-        # return FAISS.from_documents(
-        #     documents, 
-        #     self.embeddings)
-        # return FAISS.from_texts(
-        #     documents,
-        #     self.embeddings,
-        # )
     
     def retrieve(self, query: str, k_documents:int = 10) -> list[Document]:
         '''Retrieve relevant documents from the vector store
