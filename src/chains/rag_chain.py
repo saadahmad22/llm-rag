@@ -29,13 +29,10 @@ class RAGChain:
         '''
 
         # Retrieve relevant documents
-        documents: list[Document] = self.store.retrieve(query)
+        documents: list[Document] = self.store.retrieve(query, k_documents=10)
         
         # Combine documents into a single context        
         context: str = " ".join((doc.page_content for doc in documents))
-        # top-k documents are already sorted, so we can just join the of the first k documents
-        # k is not defined, but we can assume it is a parameter or a constant
-        # context = " ".join((doc.page_content for doc in documents[:k_documents]))
         
         
         # Generate response using the Llama model

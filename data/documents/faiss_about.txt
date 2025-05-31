@@ -1,0 +1,166 @@
+
+
+WikipediaThe Free Encyclopedia
+Search Wikipedia
+Search
+Donate
+Create account
+Log in
+
+Contents hide
+(Top)
+Features
+Applications
+See also
+References
+External links
+FAISS
+
+Article
+Talk
+Read
+Edit
+View history
+
+Tools
+Appearance hide
+Text
+
+Small
+
+Standard
+
+Large
+Width
+
+Standard
+
+Wide
+Color (beta)
+
+Automatic
+
+Light
+
+Dark
+From Wikipedia, the free encyclopedia
+FAISS
+Original author(s)	Hervé Jégou
+Matthijs Douze
+Jeff Johnson
+Developer(s)	Meta Platforms (Meta AI)
+Initial release	February 22, 2017; 8 years ago[1]
+Stable release	
+v1.10.0 / February 1, 2025; 3 months ago.:[2]
+Repository	github.com/facebookresearch/faiss
+Written in	C++, Python, CUDA
+Operating system	Various, including Windows, macOS, and Linux
+Platform	x86, ARM, PowerPC
+Type	Similarity search library
+License	MIT License
+Website	faiss.ai
+FAISS (Facebook AI Similarity Search)[3] is an open-source library for similarity search and clustering of vectors. It contains algorithms that search in sets of vectors of any size, up to ones that possibly do not fit in RAM. It also contains supporting code for evaluation and parameter tuning.
+
+FAISS is written in C++ with complete wrappers for Python and C. Some of the most useful algorithms are implemented on the GPU using CUDA.[4]
+
+Features
+FAISS is organized as a toolbox that contains a variety of indexing methods that commonly involve a chain of components (preprocessing, compression, non-exhaustive search, etc.). The scope of the library is intentionally limited to focus on ANNS algorithmic implementation and to avoid facilities related to database functionality, distributed computing or feature extraction algorithms.[5]
+
+FAISS is designed with the following assumptions:[5]
+
+Primary data type for vector representation is FP32. The support of other floating-point formats, such as BF16 and FP16, is provided.
+Prefer batches of input queries over a single input query for the search.
+Emphasize on allowing users to write a fast prototyping code using its Python wrappers.
+The code should be as open as possible, so that users can access all the implementation details of the indexes.
+The following major categories of indexing methods are supported:
+
+Brute-force search
+Inverted-lists based indices[6]
+Graph indices, including (Hierarchical navigable small world) HNSW and Navigating Spread-out Graph (NSG)[7]
+Locality-sensitive hashing (LSH)
+The following families of vector quantization methods are supported:
+
+Binary Quantization
+Scalar Quantization (SQ)
+Product Quantization[8] (PQ), including Polysemous Codes,[9] Optimized Product Quantization[10] (OPQ) and Quicker ADC[11] (PQFastScan)
+Additive Quantization[12] (AQ), including Residual Quantization[13] (RQ) and Local Search Quantization[14] (LSQ)
+Neural Quantization, including QINCO[15]
+FAISS focuses on euclidean distance and inner product distance for floating-point data. The limited support of other distances (manhattan distance, Lp distance, etc.) is also available.
+
+FAISS code supports multithreading via OpenMP, utilizes BLAS via OpenBLAS or Intel MKL, and also uses custom SIMD kernels for x86 and ARM Neon CPUs.
+
+Besides the similarity search, FAISS provides the following useful facilities:
+
+k-means clustering
+Random-matrix rotations[16] for spreading the variance over all the dimensions without changing the measured distances
+Principal component analysis
+Data deduplication, which is especially useful for image datasets.
+FAISS has a standalone Vector Codec functionality for the lossy compression of vectors, allowing to trade the representation accuracy for the binary size.[17]
+
+Applications
+Typical FAISS applications[5] include recommender systems, data mining,[18] text retrieval and content moderation.[19]
+
+FAISS was reported to index 1.5 trillion 144-dimensional vectors for internal Meta Platforms applications.[5][20]
+
+FAISS is used in vector databases as a core component of a search engine (OpenSearch,[21][22] Milvus,[23] Vearch[24]).
+
+FAISS is often considered as a baseline in similarity search benchmarks.[25][26][27][28]
+
+FAISS has an integration with Haystack,[29] LangChain[30] frameworks.
+
+Various advanced code snippets for FAISS can be found on its snippets wiki page and case studies wiki page.
+
+See also
+	Free and open-source software portal
+Nearest neighbor search
+Similarity search
+Vector database
+Vector quantization
+References
+ "Faiss: A library for efficient similarity search". 29 March 2017.
+ "v1.10.0". GitHub.
+ "Official FAISS wiki". GitHub.
+ Johnson, Jeff; Douze, Matthijs; Jégou, Hervé (2017). "Billion-scale similarity search with GPUs". arXiv:1702.08734 [cs.CV].
+ Douze, Matthijs; Guzhva, Alexandr; Deng, Chengqi; Johnson, Jeff; Szilvasy, Gergely; Mazaré, Pierre-Emmanuel; Lomeli, Maria; Hosseini, Lucas; Jégou, Hervé (2024). "The Faiss library". arXiv:2401.08281 [cs.LG].
+ Sivic; Zisserman (2003). "Video Google: A text retrieval approach to object matching in videos". Proceedings Ninth IEEE International Conference on Computer Vision. pp. 1470–1477 vol.2. doi:10.1109/ICCV.2003.1238663. ISBN 0-7695-1950-4.
+ Fu, Cong; Xiang, Chao; Wang, Changxu; Cai, Deng (2017). "Fast Approximate Nearest Neighbor Search With The Navigating Spreading-out Graph". arXiv:1707.00143 [cs.LG].
+ Jégou, H; Douze, M; Schmid, C (January 2011). "Product Quantization for Nearest Neighbor Search" (PDF). IEEE Transactions on Pattern Analysis and Machine Intelligence. 33 (1): 117–128. doi:10.1109/TPAMI.2010.57. PMID 21088323.
+ Douze, Matthijs; Jégou, Hervé; Perronnin, Florent (2016). "Polysemous Codes". Computer Vision – ECCV 2016. Lecture Notes in Computer Science. Vol. 9906. pp. 785–801. doi:10.1007/978-3-319-46475-6_48. ISBN 978-3-319-46474-9.
+ Ge, Tiezheng; He, Kaiming; Ke, Qifa; Sun, Jian (April 2014). "Optimized Product Quantization". IEEE Transactions on Pattern Analysis and Machine Intelligence. 36 (4): 744–755. doi:10.1109/TPAMI.2013.240. PMID 26353197.
+ Andre, Fabien; Kermarrec, Anne-Marie; Le Scouarnec, Nicolas (1 May 2021). "Quicker ADC : Unlocking the Hidden Potential of Product Quantization With SIMD". IEEE Transactions on Pattern Analysis and Machine Intelligence. 43 (5): 1666–1677. arXiv:1812.09162. doi:10.1109/TPAMI.2019.2952606. PMID 31722477.
+ Babenko, Artem; Lempitsky, Victor (June 2014). "Additive Quantization for Extreme Vector Compression". 2014 IEEE Conference on Computer Vision and Pattern Recognition. pp. 931–938. doi:10.1109/CVPR.2014.124. ISBN 978-1-4799-5118-5.
+ Liu, Shicong; Lu, Hongtao; Shao, Junru (2015). "Improved Residual Vector Quantization for High-dimensional Approximate Nearest Neighbor Search". arXiv:1509.05195 [cs.CV].
+ Martinez, Julieta; Zakhmi, Shobhit; Hoos, Holger H.; Little, James J. (2018). "LSQ++: Lower Running Time and Higher Recall in Multi-codebook Quantization". Computer Vision – ECCV 2018. Lecture Notes in Computer Science. Vol. 11220. pp. 508–523. doi:10.1007/978-3-030-01270-0_30. ISBN 978-3-030-01269-4.
+ Huijben, Iris A. M.; Douze, Matthijs; Muckley, Matthew; van Sloun, Ruud J. G.; Verbeek, Jakob (2024). "Residual Quantization with Implicit Neural Codebooks". arXiv:2401.14732 [cs.LG].
+ Sandhawalia, Harsimrat; Jegou, Herve (March 2010). "Searching with expectations". 2010 IEEE International Conference on Acoustics, Speech and Signal Processing (PDF). pp. 1242–1245. doi:10.1109/ICASSP.2010.5495403. ISBN 978-1-4244-4295-9.
+ "FAISS vector codecs". GitHub.
+ Lin, Hangfei; Miao, Li; Ziai, Amir (2023). "RAFIC: Retrieval-Augmented Few-shot Image Classification". arXiv:2312.06868 [cs.CV].
+ "Perceptual hashing tools". GitHub.
+ "Indexing 1T vectors". GitHub.
+ "OpenSearch Approximate k-NN search".
+ "Amazon OpenSearch Service now supports efficient vector query filters for FAISS".
+ "Milvus Knowhere". GitHub.
+ "Vearch: AI-native distributed vector database". GitHub.
+ Harsha Vardhan Simhadri; Williams, George; Aumüller, Martin; Douze, Matthijs; Babenko, Artem; Baranchuk, Dmitry; Chen, Qi; Hosseini, Lucas; Krishnaswamy, Ravishankar; Srinivasa, Gopal; Suhas Jayaram Subramanya; Wang, Jingdong (2022). "Results of the NeurIPS'21 Challenge on Billion-Scale Approximate Nearest Neighbor Search". arXiv:2205.03763 [cs.LG].
+ Harsha Vardhan Simhadri; Aumüller, Martin; Ingber, Amir; Douze, Matthijs; Williams, George; Magdalen Dobson Manohar; Baranchuk, Dmitry; Liberty, Edo; Liu, Frank; Landrum, Ben; Karjikar, Mazin; Dhulipala, Laxman; Chen, Meng; Chen, Yue; Ma, Rui; Zhang, Kai; Cai, Yuzheng; Shi, Jiayang; Chen, Yizhuo; Zheng, Weiguo; Wan, Zihao; Yin, Jie; Huang, Ben (2024). "Results of the Big ANN: NeurIPS'23 competition". arXiv:2409.17424 [cs.IR].
+ "Benchmarking nearest neighbors". GitHub.
+ "annbench: a lightweight benchmark for approximate nearest neighbor search". GitHub.
+ "Use a FAISS vector database with Haystack".
+ "FAISS integration with Langchain".
+External links
+Official website
+faiss on GitHub
+Official FAISS wiki
+Guidelines to choose a FAISS index
+Autofaiss - automatically create Faiss knn indices with the most optimal similarity search parameters
+Categories: Free software programmed in C++Software using the MIT license
+This page was last edited on 14 April 2025, at 11:40 (UTC).
+Text is available under the Creative Commons Attribution-ShareAlike 4.0 License; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization.
+Privacy policyAbout WikipediaDisclaimersContact WikipediaCode of ConductDevelopersStatisticsCookie statementMobile view
+Wikimedia Foundation
+Powered by MediaWiki
+
+FAISS
+
+Add languages
+Add topic
