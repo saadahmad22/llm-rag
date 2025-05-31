@@ -60,6 +60,7 @@ class LlamaModel:
         return self.postprocess_output(response['choices'][0]['text'])
 
     def preprocess_input(self, input_data: str) -> str:
+        
         # Preprocess the input data before passing it to the model
         return input_data.strip()
 

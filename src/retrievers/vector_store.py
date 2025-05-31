@@ -20,7 +20,7 @@ class VectorStore:
                 If None, will pull from the default directory (default data/documents)
         '''
         
-        self.embeddings = LlamaCppEmbeddings(model_path="/Users/saad/Downloads/llm-rag/model/Llama-3.2-3B-Instruct-Q6_K.gguf", n_ctx=2048, n_batch=512, n_threads=8, verbose=False)
+        self.embeddings = LlamaCppEmbeddings(model_path="/Users/saad/Downloads/llm-rag/model/Llama-3.2-3B-Instruct-Q6_K.gguf", n_ctx=20_000, n_batch=512, n_threads=8, verbose=False)
         # self.embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")        
         self.store = self.create_from_documents(documents)
         
