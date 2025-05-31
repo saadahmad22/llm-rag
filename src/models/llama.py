@@ -55,7 +55,6 @@ class LlamaModel:
         input_text: str = self.preprocess_input(input_data)
         history.add_user_message(input_text)
         response: str = self.model(prompt=get_buffer_string(history.messages), max_tokens=500)
-        print(response)
         history.add_ai_message(response['choices'][0]['text'])
         return self.postprocess_output(response['choices'][0]['text'])
 
