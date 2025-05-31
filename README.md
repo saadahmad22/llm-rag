@@ -2,6 +2,7 @@
 
 ## Table of contents
 0. [Introduction](#introduction)
+1. [System Setup](#setup)
 1. [Setting up an LLM](#llm)
 2. [Setting up a Database](#db)
 3. [Setting up a RAG app](#rag)
@@ -10,6 +11,7 @@
 ### Introduction <a name="introduction"></a>
 First of all, what is Retrieval-Augmented Generation, a.k.a RAG? Simply put, RAG is a technique that uses data (in the form of text) to improve results from an LLM model. What this might look like, for example, might be a training chatbot for new hires which uses RAG to sort of "feed" training data (e.g., employee manuals, training video transcripts, etc.) to an LLM. This drastically improves the chatbot's performance, giving it a huge edge over a "base" LLM, which is just using general-purpose information and can take a lot of liberties in interpreting questions and possible answers, since it has not been "trained/taught" on that specific company's training procedure. This is the motivation behind RAG, and below will be a discussion on how to get started. The tutorial will go over doing it locally on a single machine, but bear in mind that scaling it is as simple as deploying the LLM and the RAG app on separate containers.
 
+### System Setup <a name="setup"></a>
 1. The first order of business is to install [Python](https://www.python.org/downloads/) and [pip](https://pip.pypa.io/en/stable/installation/) for package management.
 2. Then, launch a [virtual environment](https://docs.python.org/3/library/venv.html) (to not interfere with global packages).
 3. Now,  install the required packages by using pip (or pip3 if you installed that instead): `pip install -r requirements.txt`
