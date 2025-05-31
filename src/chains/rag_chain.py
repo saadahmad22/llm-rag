@@ -64,14 +64,14 @@ class RAGChain:
         '''
 
         # A better prompt might be:
-        # return self.llm.generate_response(
-        #     f"You are an LLM that is an expert in ___use-case___. You have been asked the following question\n"
-        #     f"Make a step-by-step plan to answer the question.\n"
-        #     f"Make sure to answer the question in a concise, informative, and user-friendly manner, and to NOT hallucinate information.\n\n"
-        #     f"The question you are to answer is as follows: {query}\n\n"
-        #     "Please provide a concise and informative answer based on the instructions provided."
-        # )
-        return self.llm.generate_response(f"Question: {query}", history)
+        return self.llm.generate_response(
+            f"You are an LLM that is an expert in ___use-case___. You have been asked the following question\n"
+            f"Make a step-by-step plan to answer the question.\n"
+            f"Make sure to answer the question in a concise, informative, and user-friendly manner, and to NOT hallucinate information.\n\n"
+            f"The question you are to answer is as follows: {query}\n\n"
+            "Please provide a concise and informative answer based on the instructions provided."
+        )
+        # return self.llm.generate_response(f"Question: {query}", history)
     
     def embed(self, query: str) -> list[float]:
         '''Embeds a query using the vector store's embeddings.
