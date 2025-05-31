@@ -2,7 +2,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_core.documents.base import Document
 
 class TextSplitter:
-    def __init__(self, chunk_size:int = 500, chunk_overlap:int = 50):
+    def __init__(self, chunk_size:int = 500, chunk_overlap:int = 50) -> None:
         """Initializes the TextSplitter class.
         
         Keyword arguments:
@@ -12,6 +12,9 @@ class TextSplitter:
         Return: None
         """
         
+        # RecursiveTextSplitter is a bit more advanced than the CharacterTextSplitter
+        # as it can handle nested structures and is more efficient
+        # However, this makes it a bit slower than the CharacterTextSplitter
         self.text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=chunk_size,
             chunk_overlap=chunk_overlap

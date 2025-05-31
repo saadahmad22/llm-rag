@@ -1,12 +1,24 @@
 from flask import Blueprint
 
-from .queries import handle_query, handle_generate, handle_embed
+from .queries import handle_query, handle_query_llm, handle_embed
 
-bp = Blueprint('main', __name__)
+blueprints_for_routes = Blueprint('main', __name__)
 
 # Register the route with the blueprint
-bp.add_url_rule('/query', view_func=handle_query, methods=['POST'])
+blueprints_for_routes.add_url_rule('/query', view_func=handle_query, methods=['POST'])
+'''Get call for `/query`'''
+#blueprints_for_routes.add_url_rule('/query', view_func=handle_query)
 
-bp.add_url_rule('/generate', view_func=handle_generate, methods=['POST'])
+blueprints_for_routes.add_url_rule('/query_llm', view_func=handle_query_llm, methods=['POST'])
+'''Get call for `/query_llm`'''
+# blueprints_for_routes.add_url_rule('/query_llm', view_func=handle_query_llm)
 
-bp.add_url_rule('/embed', view_func=handle_embed, methods=['POST'])
+blueprints_for_routes.add_url_rule('/embed', view_func=handle_embed, methods=['POST'])
+'''Get call for `/embed`'''
+# blueprints_for_routes.add_url_rule('/embed', view_func=handle_embed)
+
+
+
+
+
+# IMPORTS HERE from `app.py`

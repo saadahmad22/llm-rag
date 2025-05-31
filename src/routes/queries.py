@@ -19,8 +19,7 @@ def handle_query():
     except Exception as e:
         return jsonify({"error": f"Could not get request as JSON: {e}"}), 400
     
-def handle_generate():
-    print("here")
+def handle_query_llm():
     if not session.get("user_id"):
         session["user_id"] = str(uuid.uuid4())
     try:
@@ -29,7 +28,7 @@ def handle_generate():
         user_id = session.get("user_id")
 
         history = rag_chain.get_user_history(user_id)
-        response = rag_chain.generate(query, history)
+        response = rag_chain.query_llm(query, history)
 
         return jsonify({"response": response})
 

@@ -1,12 +1,13 @@
 from langchain_core.documents.base import Document
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import LlamaCppEmbeddings
-from langchain_huggingface import HuggingFaceEmbeddings
+# from langchain_huggingface import HuggingFaceEmbeddings
 
-from src.config.settings import DATA_DIR
 from src.utils.document_loader import TextLoader
 from src.utils.text_splitter import TextSplitter
 from pathlib import Path
+
+DATA_DIR = "/Users/saad/Downloads/llm-rag/data/documents"
 
 class VectorStore:
     '''A class to represent a vector store for retrieving documents'''
@@ -19,10 +20,11 @@ class VectorStore:
                 If None, will pull from the default directory (default data/documents)
         '''
         
-        self.embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")        
-        self.store = self.create_from_documents(documents)        
+        self.embeddings = LlamaCppEmbeddings(model_path="/Users/saad/Downloads/llm-rag/model/Llama-3.2-3B-Instruct-Q6_K.gguf", n_ctx=2048, n_batch=512, n_threads=8, verbose=False)
+        # self.embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")        
+        self.store = self.create_from_documents(documents)
         
-    def create_from_documents(self, documents: list[Document]=None) -> FAISS:
+    def create_from_documents(self, raw_documents: list[Document]=None) -> FAISS:
         '''Create a vector store from a list of documents or he default directory
 
         Args:
@@ -32,15 +34,24 @@ class VectorStore:
             FAISS: The vector store created from the documents
         '''
 
-        if documents is None:
+        if raw_documents is None:
             text_splitter = TextSplitter()
-            documents = [doc for file_path in Path(DATA_DIR).rglob("*.txt") for doc in TextLoader(file_path).load()]
-            documents = text_splitter.split_documents(documents)
-        print(f"Creating vector store from {len(documents)} documents")
+            raw_documents: list[Document] = [doc for file_path in Path(DATA_DIR).rglob("*.txt") for doc in TextLoader(file_path).load()]
+            # split. Will still be a list of Document objects, but now each Document object will have a smaller chunk of text
+            split_documents: list[Document] = text_splitter.split_documents(raw_documents)        
 
-        documents = [doc.page_content for doc in documents]
-        text_embeddings = self.embeddings.embed_documents(documents)
-        text_embedding_pairs = zip(documents, text_embeddings)
+        # extract text from the split Document objects
+        documents_strings: list[str] = [doc.page_content for doc in split_documents]
+        # create embeddings for the documents
+        text_embeddings = self.embeddings.embed_documents(documents_strings) 
+
+        # create pairs of (text, embedding) to pass to the FAISS vector store
+        # i.e., (string object, vector)
+        # does basically a zipper merge, which pairs each text with its corresponding embedding
+        text_embedding_pairs = zip(documents_strings, text_embeddings)
+        # print(f"Creating vector store from {len(split_documents)} documents")
+        # print(f"Example text embedding pair: {next(text_embedding_pairs)}")
+
         return FAISS.from_embeddings(text_embedding_pairs, self.embeddings)
     
     def retrieve(self, query: str, k_documents:int = 10) -> list[Document]:
