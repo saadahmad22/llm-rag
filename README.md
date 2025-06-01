@@ -1,5 +1,8 @@
 # A tutorial on how to use RAG on LLMs
 
+Written by Saad Ahmad
+saadahmad9@outlook.com
+
 ## Table of contents
 
 0. [Introduction](#introduction)
