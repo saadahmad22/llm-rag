@@ -1,0 +1,213 @@
+{
+	"info": {
+		"_postman_id": "52690f48-5e72-433b-ab21-c41ae4f797c6",
+		"name": "ChatBot",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28789532"
+	},
+	"item": [
+		{
+			"name": "Query",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// var xsrfCookie = postman.getResponseCookie(\"session\"); ",
+							"// console.log(\"xcfr token\");",
+							"// console.log(xsrfCookie.value);",
+							"// xsrfCookie = postman.get",
+							"// 'csrf_token'",
+							"// postman.setEnvironmentVariable('csrftoken', xsrfCookie.value);",
+							"",
+							"// Parse the HTML response body",
+							"const responseHtml = pm.response.text();",
+							"",
+							"// Use a regular expression to extract the value of the hidden field",
+							"const regexPattern = /<input\\s+id=\"csrf_token\"\\s+name=\"csrf_token\"\\s+type=\"hidden\"\\s+value=\"([^\"]+)\">/;",
+							"const matchResult = responseHtml.match(regexPattern);",
+							"",
+							"// Extract the value of the hidden field if the regular expression matches",
+							"const csrfTokenValue = matchResult ? matchResult[1] : null;",
+							"",
+							"// Log the value to the console",
+							"//console.log(csrfTokenValue);",
+							"",
+							"postman.setEnvironmentVariable('csrf_token', csrfTokenValue);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"query\": \"When was Langchain launched?\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/query",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// var xsrfCookie = postman.getResponseCookie(\"session\"); ",
+							"// console.log(\"xcfr token\");",
+							"// console.log(xsrfCookie.value);",
+							"// xsrfCookie = postman.get",
+							"// 'csrf_token'",
+							"// postman.setEnvironmentVariable('csrftoken', xsrfCookie.value);",
+							"",
+							"// Parse the HTML response body",
+							"const responseHtml = pm.response.text();",
+							"",
+							"// Use a regular expression to extract the value of the hidden field",
+							"const regexPattern = /<input\\s+id=\"csrf_token\"\\s+name=\"csrf_token\"\\s+type=\"hidden\"\\s+value=\"([^\"]+)\">/;",
+							"const matchResult = responseHtml.match(regexPattern);",
+							"",
+							"// Extract the value of the hidden field if the regular expression matches",
+							"const csrfTokenValue = matchResult ? matchResult[1] : null;",
+							"",
+							"// Log the value to the console",
+							"//console.log(csrfTokenValue);",
+							"",
+							"postman.setEnvironmentVariable('csrf_token', csrfTokenValue);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"query\": \"When was Langchain launched?\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/query_llm",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"query_llm"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Embed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// var xsrfCookie = postman.getResponseCookie(\"session\"); ",
+							"// console.log(\"xcfr token\");",
+							"// console.log(xsrfCookie.value);",
+							"// xsrfCookie = postman.get",
+							"// 'csrf_token'",
+							"// postman.setEnvironmentVariable('csrftoken', xsrfCookie.value);",
+							"",
+							"// Parse the HTML response body",
+							"const responseHtml = pm.response.text();",
+							"",
+							"// Use a regular expression to extract the value of the hidden field",
+							"const regexPattern = /<input\\s+id=\"csrf_token\"\\s+name=\"csrf_token\"\\s+type=\"hidden\"\\s+value=\"([^\"]+)\">/;",
+							"const matchResult = responseHtml.match(regexPattern);",
+							"",
+							"// Extract the value of the hidden field if the regular expression matches",
+							"const csrfTokenValue = matchResult ? matchResult[1] : null;",
+							"",
+							"// Log the value to the console",
+							"//console.log(csrfTokenValue);",
+							"",
+							"postman.setEnvironmentVariable('csrf_token', csrfTokenValue);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"query\": \"Hugging Face, Inc. is a French-American company based in New York City that develops computation tools for building machine-learning applications. It’s best known for its Transformers library (compatible with PyTorch, TensorFlow & JAX), the Hugging Face Hub for sharing models & datasets, and related projects like Gradio and Datasets.\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/embed",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"embed"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:5000",
+			"type": "string"
+		}
+	]
+}

@@ -6,20 +6,31 @@ Written by Saad Ahmad (<saadahmad9@outlook.com>)
 
 0. [Introduction](#introduction)
 1. [System Setup](#setup)
-2. [Setting up an LLM](#llm)
-3. [Setting up a Database](#db)
-4. [Setting up a RAG app](#rag)
-5. [Conclusion](#end)
+    1. [System Setup](#system)
+    2. [Setting up an LLM](#llm)
+    3. [Setting up a Database](#db)
+    4. [Setting up a RAG app](#rag)
+2. [Running the app](#run)
+3. [Conclusion](#end)
 
 ### Introduction <a name="introduction"></a>
 
 First of all, what is Retrieval-Augmented Generation, a.k.a RAG? Simply put, RAG is a technique that uses data (in the form of text) to improve results from an LLM model. What this might look like, for example, might be a training chatbot for new hires which uses RAG to sort of "feed" training data (e.g., employee manuals, training video transcripts, etc.) to an LLM. This drastically improves the chatbot's performance, giving it a huge edge over a "base" LLM, which is just using general-purpose information and can take a lot of liberties in interpreting questions and possible answers, since it has not been "trained/taught" on that specific company's training procedure. This is the motivation behind RAG, and below will be a discussion on how to get started. The tutorial will go over doing it locally on a single machine, but bear in mind that scaling it is as simple as deploying the LLM and the RAG app on separate containers.
 
-### System Setup <a name="setup"></a>
+## Setup <a name="setup"></a>
+
+### System Setup <a name="system"></a>
 
 1. The first order of business is to install [Python](https://www.python.org/downloads/) and [pip](https://pip.pypa.io/en/stable/installation/) for package management.
+    - Note that `python` may be installed as `python3`. That is fine, just use `python3` instead of `python` in all the below commands.
+    - Similarly, `pip` may be installed as `pip3`. Just use `pip3` instead of `pip` in all the below commands.
 2. Then, launch a [virtual environment](https://docs.python.org/3/library/venv.html) (to not interfere with global packages).
-3. Now,  install the required packages by using pip (or pip3 if you installed that instead): `pip install -r requirements.txt`
+    - The typical code for this will look like the following:
+        - `python -m venv env` or `python3 -m venv env`
+            - `env` can be named differently or even in a subfolder. An example might be `python -m venv foo/bar/venv` or `python -m venv venv`.
+        - Use `source env/bin/activate`, replacing `env` with whatever was used in the previous command (e.g., `foo/bar/venv`)
+        - To deactivate, simply use the `deactivate` in the terminal.
+3. Now,  install the required packages by using `pip` (or `pip3` if you installed that instead): `pip install -r requirements.txt`
 
 ### Setting up an LLM <a name="llm"></a>
 
@@ -53,10 +64,25 @@ NOTE: An in-depth look at the [FAISS LangChain documentation](https://api.python
 
 All the building blocks are in place. All that remains is to construct an API with them for the user to be able to interface with. This tutorial approaches that task by constructing a simple [Flask server](src/app.py) with the route logic (as per convention) in the [`routes` folder](src/routes). [`init_system.py`](src/routes/init_system.py) initializes the tools discussed above in addition to another tool, [`RAGChain`](src/chains/rag_chain.py), which just serves as a bridge between the RAG and the normal LLM; it adds "retrieval" to normal chat queries in a fairly simple manner. This can/should be fine-tuned using targeted prompting techniques based on the task at hand. This means figuring out what specific text command (e.g., "You are the world's best engineer...`query`....here are some things you know...`documents`"), rather than just the simple concatenation as of now, gives the best results for the specific use case.
 
-## Running the application
+## Running the application <a name="run"></a>
 
 Run from the root folder of the project with `python3 src/app.py` or `python3 src/app.py`, depending on which version you are using.
-Run on port 5001: post requests query (rag), embed, or query_llm (non-rag). Payload example respectively in JSON:
+
+The port is `5001` with all endpoints using `POST` requests.
+
+There is:
+
+- `/query` for RAG based requests
+- `/query_llm` for non-RAG requests (i.e., normal/plain LLM calls)
+- `/embed` to embed the given query and see what that might look like.
+
+## Postman Requests
+
+The importable Postman routes can be found in the file [`RagTutorial.postman_collection.json`](RagTutorial.postman_collection.json). Once loaded into Postman, it will also be possible to see how to execute the requests in a variety of programming languages using various libraries (JS's fetch, JS's jQuery, wget on the shell, etc.). Below are examples in `curl`.
+
+## `curl` Requests
+
+Examples of how to use the `curl` to make requests
 
 1. For RAG query:
 
